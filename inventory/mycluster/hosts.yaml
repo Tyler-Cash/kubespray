@@ -1,0 +1,41 @@
+all:
+  hosts:
+    node1.k8s.tylercash.dev:
+      ansible_host: 10.0.123.11
+      ip: 10.0.123.11
+      access_ip: 10.0.123.11
+      ansible_user: root
+    node2.k8s.tylercash.dev:
+      ansible_host: 10.0.123.12
+      ip: 10.0.123.12
+      access_ip: 10.0.123.12
+      ansible_user: root
+    node3.k8s.tylercash.dev:
+      ansible_host: 10.0.123.13
+      ip: 10.0.123.13
+      access_ip: 10.0.123.13
+      ansible_user: root
+    mstr1.k8s.tylercash.dev:
+      ansible_host: 10.0.123.21
+      ip: 10.0.123.21
+      access_ip: 10.0.123.21
+      ansible_user: root
+  children:
+    kube-master:
+      hosts:
+        mstr1.k8s.tylercash.dev:
+    kube-node:
+      hosts:
+        mstr1.k8s.tylercash.dev:
+        node1.k8s.tylercash.dev:
+        node2.k8s.tylercash.dev:
+        node3.k8s.tylercash.dev:
+    etcd:
+      hosts:
+        mstr1.k8s.tylercash.dev:
+    k8s-cluster:
+      children:
+        kube-master:
+        kube-node:
+    calico-rr:
+      hosts: {}
